@@ -1,0 +1,44 @@
+.login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.p-card{
+    border-radius: 20px;
+}
+
+.account{
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.p-inputtext {
+    align-items: center;
+    justify-content: center;
+    width: 25rem;
+    text-align: center;
+}
+
+.p-dialog-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.placeholder {
+    margin-left: 2rem;
+}
+
+.changeButton {
+    height: 2rem;
+    background-color: #b9c9eb;
+    border-color: #cdd6ea;
+}
+
+.submitForm {
+    color:  whitesmoke;
+}

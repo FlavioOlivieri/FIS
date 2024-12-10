@@ -1,0 +1,30 @@
+.imgProduct img {
+    max-width: 100%;
+    height: auto; 
+    width: 20rem;
+}
+
+.imgProduct {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    width: 70%;
+    max-width: 1200px;
+    padding: 0 20px;
+}
+
+.detailsProduct {
+    text-align: center;
+}   
+
+.carousel-container {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    height: 90vh; 
+}
+
+.p-button {
+    margin: 1rem;
+}
