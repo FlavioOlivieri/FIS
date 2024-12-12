@@ -5,6 +5,8 @@ import { Tag } from 'primereact/tag';
 import axios from 'axios';
 import '../css/Shop.css';
 
+const API_URL = 'http://192.168.1.9:5001';
+
 export default function Shop({ visible, onHide, updateSaldo }) {
     const [products, setProducts] = useState([]);
     const [saldo, setSaldo] = useState(null);
@@ -26,10 +28,11 @@ export default function Shop({ visible, onHide, updateSaldo }) {
         const fetchProducts = async () => {
             const token = localStorage.getItem('token');
             try {
-                const response = await axios.get('http://localhost:5001/products', {
+                const response = await axios.get(`${API_URL}/products`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setProducts(response.data);
+                console.log('Products:', response.data);
             } catch (error) {
                 console.error("Errore nel recupero dei prodotti:", error);
             }
@@ -38,7 +41,7 @@ export default function Shop({ visible, onHide, updateSaldo }) {
         const fetchSaldo = async () => {
             const token = localStorage.getItem('token');
             try {
-                const response = await axios.get('http://localhost:5001/user', {
+                const response = await axios.get(`${API_URL}/user`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setSaldo(response.data.saldo);
@@ -56,7 +59,7 @@ export default function Shop({ visible, onHide, updateSaldo }) {
         console.log(`Attempting to buy product with ID: ${productId}`);
 
         try {
-            const response = await axios.post('http://localhost:5001/buy', { id: productId }, {
+            const response = await axios.post(`${API_URL}/buy`, { id: productId }, {
                 headers: { Authorization: `Bearer ${token}` }
             });
 
@@ -88,23 +91,23 @@ export default function Shop({ visible, onHide, updateSaldo }) {
         return (
             <div>
                 <div className='imgProduct'>
-                    <img src={`http://localhost:5001/static/${product.image}`} alt={product.name} />
+                    <img src={`${API_URL}/static/${product.image}`} alt={product.name} />
                 </div>
                 <div className='detailsProduct'>
                     <h2>{product.name}</h2>
                     <h4>{product.price.toFixed(2)} €</h4>
                     <Tag value={product.inventoryStatus} severity={getSeverity(product)}></Tag>
                     <div>
-                        {isProductOutOfStock && product.acquistato ? (
+                        {product.acquistato ? (
                             <Button label="Acquistato" className="p-button-success p-button-rounded" disabled />
                         ) : isProductOutOfStock ? (
                             <Button label="Non acquistabile" className="p-button-danger p-button-rounded" disabled />
                         ) : (
-                            <Button 
-                                icon="pi pi-shopping-bag" 
-                                className="p-button p-button-rounded" 
+                            <Button
+                                icon="pi pi-shopping-bag"
+                                className="p-button p-button-rounded"
                                 label="Acquista"
-                                onClick={() => handleBuy(product.productId)} 
+                                onClick={() => handleBuy(product.productId)}
                             />
                         )}
                     </div>
@@ -116,7 +119,7 @@ export default function Shop({ visible, onHide, updateSaldo }) {
     return (
         <div className="carousel-container">
             <Carousel value={products} numVisible={1} numScroll={1} orientation="vertical" verticalViewPortHeight="30rem"
-            itemTemplate={productTemplate} />
+                itemTemplate={productTemplate} />
         </div>
     );
 }

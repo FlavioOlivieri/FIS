@@ -6,7 +6,7 @@ import { Button } from 'primereact/button';
 import axios from 'axios';
 import '../css/Donate.css';
 
-const API_URL = 'http://localhost:5001';  // URL del backend
+const API_URL = 'http://192.168.1.9:5001';  // URL del backend
 
 export default function Donate({ visible, onHide, position, updateSaldo }) {
     const [value, setValue] = useState('');

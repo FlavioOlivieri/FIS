@@ -10,6 +10,8 @@ import Shop from './Shop';
 import { Card } from 'primereact/card';
 import axios from 'axios';
 
+const API_URL = 'http://192.168.1.9:5001'; 
+
 export default function Navbar() {
     const [dialogVisible, setDialogVisible] = useState(true);
     const [dialogType, setDialogType] = useState("shop");
@@ -20,7 +22,7 @@ export default function Navbar() {
     const fetchUserInfo = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.get('http://localhost:5001/user', {
+            const response = await axios.get(`${API_URL}/user`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setUsername(response.data.username);

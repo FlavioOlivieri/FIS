@@ -16,7 +16,7 @@ export default function Login() {
     const navigate = useNavigate();
     const [error, setError] = useState(null);
 
-    const API_URL = 'http://localhost:5001';
+    const API_URL = 'http://192.168.1.9:5001';
 
     const handleSubmit = async (e) => {
         e.preventDefault();

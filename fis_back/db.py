@@ -248,10 +248,7 @@ def get_products():
             'price': product.price,
             'image': product.image,
             'inventoryStatus': product.inventory_status,
-            # Include l'elenco di utenti associati se necessario
-            'userProducts': [
-                {'userId': user_product.user_id} for user_product in product.user_products
-            ] if product.user_products else []
+            'acquistato': UserProduct.query.filter_by(user_id=user_id, product_id=product.productId).first() is not None
         } for product in products]
 
         # Risponde con i prodotti
@@ -317,6 +314,8 @@ def buy():
         user.saldo -= product.price
         new_user_product = UserProduct(user_id=user.id, product_id=product_id)
         db.session.add(new_user_product)
+        if not product.user_products:
+            product.inventory_status = "Esaurito"
         db.session.commit()
 
         return jsonify({'saldo': user.saldo, 'message': 'Purchase successful'})
